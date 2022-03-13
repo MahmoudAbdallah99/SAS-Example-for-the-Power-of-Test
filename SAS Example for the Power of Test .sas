@@ -1,0 +1,18 @@
+DATA aa; 
+alpha=0.05; 
+n1=7; 
+n2=7; 
+mi1=21.8; 
+mi2=26.4; 
+stdev1=4.1; 
+stdev2=5.9; 
+df=n1+n2-2; 
+sp = SQRT(((n1-1)*stdev1*stdev1+(n2-1)*stdev2*stdev2)/(n1+n2-2)); 
+lambda=(ABS(mi2-mi1)/sp)/sqrt(1/n1+1/n2); 
+tcrit_low=TINV(alpha/2,df); 
+tcrit_up=TINV(1-alpha/2,df); 
+tcrit_one_tail=TINV(1-alpha,df); 
+power_one_tail=1-CDF('t',tcrit_one_tail,df,lambda); 
+power_two_tail=CDF('t',tcrit_low,df,lambda)+ 1-CDF('t',tcrit_up,df,lambda); 
+PROC PRINT; 
+RUN;
